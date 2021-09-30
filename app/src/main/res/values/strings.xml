@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Anime Motion</string>
+    <string name="search_view_hint">Ingrese anime</string>
+</resources>

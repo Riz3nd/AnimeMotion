@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Search_View">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:icon">@color/white</item>
+        <item name="android:iconTint">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+
+</resources>
