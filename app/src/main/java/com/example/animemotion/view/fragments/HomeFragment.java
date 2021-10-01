@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,11 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment implements IHomeFragment.View, OnBackPressedListener{
     private IHomeFragment.Presenter presenter;
     private RecyclerView recyclerTopAnime;
-    private ProgressBar indeterminateBar;
+    public static ProgressBar indeterminateBar;
     private static ArrayList<JikanTopAnimeList> arrayTop;
     private FragmentContainerView fragmentContainerInfo;
     public static OnBackPressedListener listener;
+    private Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class HomeFragment extends Fragment implements IHomeFragment.View, OnBack
         if(getContext() != null){
             init();
         }
+
         return root;
     }
 
@@ -59,10 +62,16 @@ public class HomeFragment extends Fragment implements IHomeFragment.View, OnBack
                 hideProgressBar();
                 listTopAnime(arrayTop);
             }
+            HomeActivityView.nosignal_container.setVisibility(View.GONE);
         }else {
-            Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
+            HomeActivityView.nosignal_container.setVisibility(View.VISIBLE);
+            hideProgressBar();
         }
     }
+
+
+
+
 
     @Override
     public void onPause() {

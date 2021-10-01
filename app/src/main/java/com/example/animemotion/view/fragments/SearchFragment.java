@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.animemotion.model.AnimeSearch;
 import com.example.animemotion.model.JikanTopAnimeList;
 import com.example.animemotion.model.animesearch.AnimeSearchResults;
 import com.example.animemotion.presenter.SearchFragmentPresenterImpl;
+import com.example.animemotion.utils.UtilsNetwork;
 import com.example.animemotion.view.AdapterListSearchAnime;
 import com.example.animemotion.view.AdapterListTopAnime;
 import com.example.animemotion.view.HomeActivityView;
@@ -31,12 +33,14 @@ public class SearchFragment extends Fragment implements ISearchFragment.View {
     private RecyclerView recycler_search_anime;
     private AdapterListSearchAnime listAdapter;
     private FragmentContainerView fragment_container_search;
-    private ProgressBar indeterminate_progress_bar;
+    public static ProgressBar indeterminate_progress_bar;
+    private Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new SearchFragmentPresenterImpl(this);
+        handler = new Handler();
     }
 
     @Override
@@ -52,7 +56,13 @@ public class SearchFragment extends Fragment implements ISearchFragment.View {
 
     private void init() {
         String anime = HomeActivityView.anime;
-        presenter.getSearchAnimeList(anime);
+        if(UtilsNetwork.isOnline(getContext())){
+            presenter.getSearchAnimeList(anime);
+            HomeActivityView.nosignal_container.setVisibility(View.GONE);
+        }else{
+            hideProgressBar();
+            HomeActivityView.nosignal_container.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

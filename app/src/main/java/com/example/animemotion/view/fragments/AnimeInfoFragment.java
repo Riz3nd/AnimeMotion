@@ -21,12 +21,13 @@ import com.example.animemotion.interfaces.IAnimeInfoFragment;
 import com.example.animemotion.model.AnimeInfo;
 import com.example.animemotion.presenter.AnimeInfoFragmentPresenterImpl;
 import com.example.animemotion.utils.UtilsNetwork;
+import com.example.animemotion.view.HomeActivityView;
 
 public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.View {
     private IAnimeInfoFragment.Presenter presenter;
     private TextView synopsis_anime_info, title_info_anime, score_info_anime, geners_info_anime;
     private ImageView img_anime_info;
-    private ProgressBar indeterminateBarInfo;
+    public static ProgressBar indeterminateBarInfo;
     private CardView card_img_info;
 
     @Override
@@ -58,9 +59,11 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
             if(data != null){
                 int res = data.getInt("id_anime");
                 presenter.getAnimeInfo(res);
+                HomeActivityView.nosignal_container.setVisibility(View.GONE);
             }
         }else{
-            Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
+            hideProgressBar();
+            HomeActivityView.nosignal_container.setVisibility(View.VISIBLE);
         }
     }
 
