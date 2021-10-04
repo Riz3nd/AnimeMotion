@@ -65,6 +65,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
             if(data != null){
                 int res = data.getInt("id_anime");
                 presenter.getAnimeInfo(res);
+
             }
         }else{
             //Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
