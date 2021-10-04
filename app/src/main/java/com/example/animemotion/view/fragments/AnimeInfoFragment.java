@@ -5,10 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,10 +35,13 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     private IAnimeInfoFragment.Presenter presenter;
     private TextView synopsis_anime_info, title_info_anime, score_info_anime, geners_info_anime;
     private ImageView img_anime_info;
+    private Button btn_cap;
     private ProgressBar indeterminateBarInfo;
     private CardView card_img_info;
+    private FragmentContainerView fragment_container_web;
     private Translator translator;
     private String synopsis = "";
+    private int idAnime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,25 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
         geners_info_anime = root.findViewById(R.id.geners_info_anime);
         title_info_anime = root.findViewById(R.id.title_info_anime);
         card_img_info = root.findViewById(R.id.card_img_info);
+        fragment_container_web = root.findViewById(R.id.fragment_container_web);
+        btn_cap = root.findViewById(R.id.btn_cap);
+
+        btn_cap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle data = new Bundle();
+                int id = idAnime;
+                data.putInt("anime_caps",id);
+                WebFragment webFragment = new WebFragment();
+                webFragment.setArguments(data);
+                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container_web, webFragment)
+                        .addToBackStack(null);
+                ft.commit();
+                fragment_container_web.setVisibility(View.VISIBLE);
+            }
+        });
+
         if(getContext() != null){
             init();
         }
@@ -76,6 +102,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     public void showAnimeInfo(AnimeInfo animeInfo) {
         prepareModel(animeInfo.getSynopsis());
         String genres = "";
+        idAnime = animeInfo.getMal_id();
         title_info_anime.setText(animeInfo.getTitle());
         //synopsis_anime_info.setText("Synopsis: \n" + animeInfo.getSynopsis());
         score_info_anime.setText("Score: " + animeInfo.getScore());
@@ -129,7 +156,9 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
                 //synopsis = synopsis.substring(0,synopsis.length()-27);
 //                System.out.println("OSCAR::: "+synopsis);
                 synopsis_anime_info.setText("Synopsis: \n" + synopsis);
+                btn_cap.setVisibility(View.VISIBLE);
             }
         });
     }
+
 }

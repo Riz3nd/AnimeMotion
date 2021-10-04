@@ -1,5 +1,6 @@
 package com.example.animemotion.interfaces;
 
+import com.example.animemotion.model.AnimeCaps;
 import com.example.animemotion.model.AnimeInfo;
 import com.example.animemotion.model.AnimeSearch;
 import com.example.animemotion.model.JikanTopAnime;
@@ -23,5 +24,8 @@ public interface IServiceJikanApi {
 
     @GET("search/anime")
     Call<AnimeSearch> searchAnime(@Query("q") String anime);
+
+    @GET("anime/{id}/episodes")
+    Call<AnimeCaps> getAnimeCap(@Path("id") int id);
 
 }
