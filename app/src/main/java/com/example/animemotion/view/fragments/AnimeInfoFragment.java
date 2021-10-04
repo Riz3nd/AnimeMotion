@@ -67,7 +67,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
                 presenter.getAnimeInfo(res);
             }
         }else{
-            Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
         }
     }
 
