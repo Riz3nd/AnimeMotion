@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,12 @@ import com.example.animemotion.interfaces.IAnimeInfoFragment;
 import com.example.animemotion.model.AnimeInfo;
 import com.example.animemotion.presenter.AnimeInfoFragmentPresenterImpl;
 import com.example.animemotion.utils.UtilsNetwork;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 
 public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.View {
     private IAnimeInfoFragment.Presenter presenter;
@@ -28,6 +33,8 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     private ImageView img_anime_info;
     private ProgressBar indeterminateBarInfo;
     private CardView card_img_info;
+    private Translator translator;
+    private String synopsis = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,10 +73,12 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
 
     @Override
     public void showAnimeInfo(AnimeInfo animeInfo) {
-            String genres = "";
-            title_info_anime.setText(animeInfo.getTitle());
-            synopsis_anime_info.setText("Synopsis: \n" + animeInfo.getSynopsis());
-            score_info_anime.setText("Score: " + animeInfo.getScore());
+        prepareModel(animeInfo.getSynopsis());
+
+        String genres = "";
+        title_info_anime.setText(animeInfo.getTitle());
+        //synopsis_anime_info.setText("Synopsis: \n" + animeInfo.getSynopsis());
+        score_info_anime.setText("Score: " + animeInfo.getScore());
             Glide.with(getContext())
                     .load(animeInfo.getImage_url())
                     .into(img_anime_info);
@@ -90,5 +99,36 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     @Override
     public void onFailure(String failure) {
         Toast.makeText(getContext(),failure, Toast.LENGTH_SHORT).show();
+    }
+
+    public void prepareModel(String text) {
+        TranslatorOptions options = new TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.ENGLISH)
+                .setTargetLanguage(TranslateLanguage.SPANISH)
+                .build();
+        translator = Translation.getClient(options);
+
+        translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                traducir(text);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    public void traducir(String text) {
+        translator.translate(text).addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                synopsis = s;
+                synopsis = synopsis.substring(0,synopsis.length()-27);
+                synopsis_anime_info.setText("Synopsis: \n" + synopsis);
+            }
+        });
     }
 }
