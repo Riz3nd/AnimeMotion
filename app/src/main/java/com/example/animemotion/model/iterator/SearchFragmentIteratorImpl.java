@@ -33,7 +33,6 @@ public class SearchFragmentIteratorImpl implements ISearchFragment.Iterator {
             public void onResponse(Call<AnimeSearch> call, Response<AnimeSearch> response) {
                 if(response.isSuccessful()){
                     AnimeSearch lista = response.body();
-                    System.out.println("LISTA DE BUSQUEDAAAAAAAAAAAAAAA:::"+lista.getResults().get(1).getTitle());
                     presenter.showSearchAnimeList(lista.getResults());
                 }else{
                     presenter.onFailure("Codigo de error: "+response.code());

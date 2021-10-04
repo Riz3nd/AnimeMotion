@@ -67,6 +67,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
                 presenter.getAnimeInfo(res);
             }
         }else{
+            hideProgressBar();
             //Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
         }
     }
@@ -74,7 +75,6 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     @Override
     public void showAnimeInfo(AnimeInfo animeInfo) {
         prepareModel(animeInfo.getSynopsis());
-
         String genres = "";
         title_info_anime.setText(animeInfo.getTitle());
         //synopsis_anime_info.setText("Synopsis: \n" + animeInfo.getSynopsis());
@@ -126,7 +126,8 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
             @Override
             public void onSuccess(String s) {
                 synopsis = s;
-                synopsis = synopsis.substring(0,synopsis.length()-27);
+                //synopsis = synopsis.substring(0,synopsis.length()-27);
+//                System.out.println("OSCAR::: "+synopsis);
                 synopsis_anime_info.setText("Synopsis: \n" + synopsis);
             }
         });
