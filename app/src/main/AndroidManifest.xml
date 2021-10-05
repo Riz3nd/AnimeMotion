@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeMotion">
         <activity
-            android:name=".view.HomeActivityView"
+            android:name=".view.HomeActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true" />
         <activity

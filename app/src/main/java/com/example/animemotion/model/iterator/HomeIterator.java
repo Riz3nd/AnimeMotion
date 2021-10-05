@@ -1,10 +1,8 @@
 package com.example.animemotion.model.iterator;
 
-import com.example.animemotion.interfaces.ISearchFragment;
+import com.example.animemotion.interfaces.IHomeFragment;
 import com.example.animemotion.interfaces.IServiceJikanApi;
-import com.example.animemotion.model.AnimeSearch;
-
-import java.util.ArrayList;
+import com.example.animemotion.model.JikanTopAnime;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,10 +10,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchFragmentIteratorImpl implements ISearchFragment.Iterator {
-    ISearchFragment.Presenter presenter;
+public class HomeIterator implements IHomeFragment.Iterator {
+    private IHomeFragment.Presenter presenter;
 
-    public SearchFragmentIteratorImpl(ISearchFragment.Presenter presenter){
+    public HomeIterator(IHomeFragment.Presenter presenter){
         this.presenter = presenter;
     }
 
@@ -25,24 +23,24 @@ public class SearchFragmentIteratorImpl implements ISearchFragment.Iterator {
             .build();
 
     @Override
-    public void getSearchAnimeList(String anime) {
-        System.out.println("ENTRAMOS AQUIIIIIIIIIII");
+    public void getTopAnimeList() {
         IServiceJikanApi service = retrofit.create(IServiceJikanApi.class);
-        service.searchAnime(anime).enqueue(new Callback<AnimeSearch>() {
+        service.getTopAnimeList().enqueue(new Callback<JikanTopAnime>() {
             @Override
-            public void onResponse(Call<AnimeSearch> call, Response<AnimeSearch> response) {
+            public void onResponse(Call<JikanTopAnime> call, Response<JikanTopAnime> response) {
                 if(response.isSuccessful()){
-                    AnimeSearch lista = response.body();
-                    presenter.showSearchAnimeList(lista.getResults());
+                    JikanTopAnime lista = response.body();
+                    presenter.showTopAnimeList(lista.getTop());
                 }else{
                     presenter.onFailure("Codigo de error: "+response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<AnimeSearch> call, Throwable t) {
+            public void onFailure(Call<JikanTopAnime> call, Throwable t) {
                 presenter.onFailure(t.getMessage());
             }
         });
     }
+
 }

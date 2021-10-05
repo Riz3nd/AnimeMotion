@@ -1,34 +1,24 @@
 package com.example.animemotion.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.animemotion.R;
 import com.example.animemotion.interfaces.OnBackPressedListener;
-import com.example.animemotion.model.JikanTopAnimeList;
 import com.example.animemotion.utils.UtilsNetwork;
 import com.example.animemotion.view.fragments.HomeFragment;
 import com.example.animemotion.view.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-
-public class HomeActivityView extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     private BottomNavigationView btnNavMenu;
     private SearchView search_view_bar;
     private FragmentContainerView fragment_content;
@@ -80,11 +70,11 @@ public class HomeActivityView extends AppCompatActivity implements SearchView.On
             @Override
             public void run() {
                 if(UtilsNetwork.isOnline(getApplicationContext())){
-                    HomeActivityView.nosignal_container.setVisibility(View.GONE);
+                    HomeActivity.nosignal_container.setVisibility(View.GONE);
                     fragment_content.setVisibility(View.VISIBLE);
                 }else{
                     fragment_content.setVisibility(View.GONE);
-                    HomeActivityView.nosignal_container.setVisibility(View.VISIBLE);
+                    HomeActivity.nosignal_container.setVisibility(View.VISIBLE);
                 }
                 handler.postDelayed(this,300);
             }

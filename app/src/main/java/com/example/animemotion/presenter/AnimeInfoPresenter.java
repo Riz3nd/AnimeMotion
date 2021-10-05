@@ -2,15 +2,15 @@ package com.example.animemotion.presenter;
 
 import com.example.animemotion.interfaces.IAnimeInfoFragment;
 import com.example.animemotion.model.AnimeInfo;
-import com.example.animemotion.model.iterator.AnimeInfoFragmentIteratorImpl;
+import com.example.animemotion.model.iterator.AnimeInfoIterator;
 
-public class AnimeInfoFragmentPresenterImpl implements IAnimeInfoFragment.Presenter {
+public class AnimeInfoPresenter implements IAnimeInfoFragment.Presenter {
     private IAnimeInfoFragment.Iterator iterator;
     private IAnimeInfoFragment.View view;
 
-    public AnimeInfoFragmentPresenterImpl(IAnimeInfoFragment.View view){
+    public AnimeInfoPresenter(IAnimeInfoFragment.View view){
         this.view = view;
-        this.iterator = new AnimeInfoFragmentIteratorImpl(this);
+        this.iterator = new AnimeInfoIterator(this);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class AnimeInfoFragmentPresenterImpl implements IAnimeInfoFragment.Presen
     @Override
     public void showAnimeInfo(AnimeInfo animeInfo) {
         view.showAnimeInfo(animeInfo);
-        view.hideProgressBar();
+//        view.hideProgressBar();
     }
 
     @Override

@@ -18,10 +18,10 @@ import com.example.animemotion.R;
 import com.example.animemotion.interfaces.IHomeFragment;
 import com.example.animemotion.interfaces.OnBackPressedListener;
 import com.example.animemotion.model.JikanTopAnimeList;
-import com.example.animemotion.presenter.HomeFragmentPresenterImpl;
+import com.example.animemotion.presenter.HomePresenter;
 import com.example.animemotion.utils.UtilsNetwork;
 import com.example.animemotion.view.AdapterListTopAnime;
-import com.example.animemotion.view.HomeActivityView;
+import com.example.animemotion.view.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment implements IHomeFragment.View, OnBack
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomeFragmentPresenterImpl(this);
+        presenter = new HomePresenter(this);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment implements IHomeFragment.View, OnBack
             listAdapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    HomeActivityView.idAnime = array.get(recyclerTopAnime.getChildAdapterPosition(view)).getMal_id();
+                    HomeActivity.idAnime = array.get(recyclerTopAnime.getChildAdapterPosition(view)).getMal_id();
                     int id = array.get(recyclerTopAnime.getChildAdapterPosition(view)).getMal_id();
                     Bundle data = new Bundle();
                     AnimeInfoFragment fragment = new AnimeInfoFragment();

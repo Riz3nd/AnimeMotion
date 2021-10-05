@@ -11,10 +11,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AnimeCapsFragmentIteratorImpl implements IAnimeCapsFragment.Iterator{
+public class AnimeCapsIterator implements IAnimeCapsFragment.Iterator{
     private IAnimeCapsFragment.Presenter presenter;
 
-    public AnimeCapsFragmentIteratorImpl(IAnimeCapsFragment.Presenter presenter) {
+    public AnimeCapsIterator(IAnimeCapsFragment.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -31,13 +31,16 @@ public class AnimeCapsFragmentIteratorImpl implements IAnimeCapsFragment.Iterato
             public void onResponse(Call<AnimeCaps> call, Response<AnimeCaps> response) {
                 if(response.isSuccessful()){
                     AnimeCaps caps = response.body();
+                    presenter.showAnimeCaps(caps.getEpisodes());
 //                    System.out.println("EPISODIOS: "+caps.getEpisodes().get(1).getVideo_url());
+                }else {
+                    presenter.onFailure("Error: "+response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<AnimeCaps> call, Throwable t) {
-
+                presenter.onFailure("Error: "+t.getMessage());
             }
         });
 

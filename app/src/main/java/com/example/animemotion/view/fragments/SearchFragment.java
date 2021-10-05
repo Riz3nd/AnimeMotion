@@ -2,7 +2,6 @@ package com.example.animemotion.view.fragments;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,13 +15,10 @@ import android.widget.ProgressBar;
 
 import com.example.animemotion.R;
 import com.example.animemotion.interfaces.ISearchFragment;
-import com.example.animemotion.model.AnimeSearch;
-import com.example.animemotion.model.JikanTopAnimeList;
 import com.example.animemotion.model.animesearch.AnimeSearchResults;
-import com.example.animemotion.presenter.SearchFragmentPresenterImpl;
+import com.example.animemotion.presenter.SearchPresenter;
 import com.example.animemotion.view.AdapterListSearchAnime;
-import com.example.animemotion.view.AdapterListTopAnime;
-import com.example.animemotion.view.HomeActivityView;
+import com.example.animemotion.view.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -36,7 +32,7 @@ public class SearchFragment extends Fragment implements ISearchFragment.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchFragmentPresenterImpl(this);
+        presenter = new SearchPresenter(this);
     }
 
     @Override
@@ -51,7 +47,7 @@ public class SearchFragment extends Fragment implements ISearchFragment.View {
     }
 
     private void init() {
-        String anime = HomeActivityView.anime;
+        String anime = HomeActivity.anime;
         presenter.getSearchAnimeList(anime);
     }
 
@@ -76,7 +72,7 @@ public class SearchFragment extends Fragment implements ISearchFragment.View {
         listAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HomeActivityView.idAnime = array.get(recycler_search_anime.getChildAdapterPosition(view)).getMal_id();
+                HomeActivity.idAnime = array.get(recycler_search_anime.getChildAdapterPosition(view)).getMal_id();
                 int id = array.get(recycler_search_anime.getChildAdapterPosition(view)).getMal_id();
                 Bundle data = new Bundle();
                 AnimeInfoFragment fragment = new AnimeInfoFragment();

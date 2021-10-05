@@ -1,18 +1,18 @@
 package com.example.animemotion.presenter;
 
 import com.example.animemotion.interfaces.IHomeFragment;
-import com.example.animemotion.model.iterator.HomeFragmentIteratorImpl;
+import com.example.animemotion.model.iterator.HomeIterator;
 import com.example.animemotion.model.JikanTopAnimeList;
 
 import java.util.ArrayList;
 
-public class HomeFragmentPresenterImpl implements IHomeFragment.Presenter {
+public class HomePresenter implements IHomeFragment.Presenter {
     private IHomeFragment.Iterator iterator;
     private IHomeFragment.View view;
 
-    public HomeFragmentPresenterImpl(IHomeFragment.View view){
+    public HomePresenter(IHomeFragment.View view){
         this.view = view;
-        this.iterator = new HomeFragmentIteratorImpl(this);
+        this.iterator = new HomeIterator(this);
     }
 
     @Override

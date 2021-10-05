@@ -11,10 +11,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AnimeInfoFragmentIteratorImpl implements IAnimeInfoFragment.Iterator {
+public class AnimeInfoIterator implements IAnimeInfoFragment.Iterator {
     private IAnimeInfoFragment.Presenter presenter;
     private RetrofitClient client;
-    public AnimeInfoFragmentIteratorImpl(IAnimeInfoFragment.Presenter presenter){
+    public AnimeInfoIterator(IAnimeInfoFragment.Presenter presenter){
         this.presenter = presenter;
     }
 

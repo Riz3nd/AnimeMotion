@@ -1,18 +1,18 @@
 package com.example.animemotion.presenter;
 
 import com.example.animemotion.interfaces.ISearchFragment;
-import com.example.animemotion.model.iterator.SearchFragmentIteratorImpl;
+import com.example.animemotion.model.iterator.SearchIterator;
 import com.example.animemotion.model.animesearch.AnimeSearchResults;
 
 import java.util.ArrayList;
 
-public class SearchFragmentPresenterImpl implements ISearchFragment.Presenter {
+public class SearchPresenter implements ISearchFragment.Presenter {
     private ISearchFragment.Iterator iterator;
     private ISearchFragment.View view;
 
-    public SearchFragmentPresenterImpl(ISearchFragment.View view){
+    public SearchPresenter(ISearchFragment.View view){
         this.view = view;
-        this.iterator = new SearchFragmentIteratorImpl(this);
+        this.iterator = new SearchIterator(this);
     }
 
     @Override

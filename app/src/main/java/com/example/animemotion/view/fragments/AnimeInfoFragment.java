@@ -11,9 +11,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.animemotion.R;
 import com.example.animemotion.interfaces.IAnimeInfoFragment;
 import com.example.animemotion.model.AnimeInfo;
-import com.example.animemotion.presenter.AnimeInfoFragmentPresenterImpl;
+import com.example.animemotion.presenter.AnimeInfoPresenter;
 import com.example.animemotion.utils.UtilsNetwork;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +38,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     private Button btn_cap;
     private ProgressBar indeterminateBarInfo;
     private CardView card_img_info;
+    private LinearLayout linear_info_anime;
     private FragmentContainerView fragment_container_web;
     private Translator translator;
     private String synopsis = "";
@@ -46,7 +47,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new AnimeInfoFragmentPresenterImpl(this);
+        presenter = new AnimeInfoPresenter(this);
     }
 
     @Override
@@ -60,6 +61,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
         geners_info_anime = root.findViewById(R.id.geners_info_anime);
         title_info_anime = root.findViewById(R.id.title_info_anime);
         card_img_info = root.findViewById(R.id.card_img_info);
+        linear_info_anime = root.findViewById(R.id.linear_info_anime);
         fragment_container_web = root.findViewById(R.id.fragment_container_web);
         btn_cap = root.findViewById(R.id.btn_cap);
 
@@ -69,7 +71,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
                 Bundle data = new Bundle();
                 int id = idAnime;
                 data.putInt("anime_caps",id);
-                WebFragment webFragment = new WebFragment();
+                AnimeCapsFragment webFragment = new AnimeCapsFragment();
                 webFragment.setArguments(data);
                 FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container_web, webFragment)
@@ -93,7 +95,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
                 presenter.getAnimeInfo(res);
             }
         }else{
-            hideProgressBar();
+
             //Toast.makeText(getContext(),"No hay internet",Toast.LENGTH_LONG).show();
         }
     }
@@ -121,6 +123,7 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
     public void hideProgressBar() {
         indeterminateBarInfo.setVisibility(View.GONE);
         card_img_info.setVisibility(View.VISIBLE);
+        linear_info_anime.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -153,10 +156,9 @@ public class AnimeInfoFragment extends Fragment implements IAnimeInfoFragment.Vi
             @Override
             public void onSuccess(String s) {
                 synopsis = s;
-                //synopsis = synopsis.substring(0,synopsis.length()-27);
-//                System.out.println("OSCAR::: "+synopsis);
                 synopsis_anime_info.setText("Synopsis: \n" + synopsis);
                 btn_cap.setVisibility(View.VISIBLE);
+                hideProgressBar();
             }
         });
     }

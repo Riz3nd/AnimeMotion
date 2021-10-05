@@ -2,15 +2,17 @@ package com.example.animemotion.presenter;
 
 import com.example.animemotion.interfaces.IAnimeCapsFragment;
 import com.example.animemotion.model.animecaps.AnimeCapsData;
-import com.example.animemotion.model.iterator.AnimeCapsFragmentIteratorImpl;
+import com.example.animemotion.model.iterator.AnimeCapsIterator;
 
-public class AnimeCapsFragmentPresenterImpl implements IAnimeCapsFragment.Presenter {
+import java.util.ArrayList;
+
+public class AnimeCapsPresenter implements IAnimeCapsFragment.Presenter {
     private IAnimeCapsFragment.Iterator iterator;
     private IAnimeCapsFragment.View view;
 
-    public AnimeCapsFragmentPresenterImpl(IAnimeCapsFragment.View view) {
+    public AnimeCapsPresenter(IAnimeCapsFragment.View view) {
         this.view = view;
-        iterator = new AnimeCapsFragmentIteratorImpl(this);
+        iterator = new AnimeCapsIterator(this);
     }
 
     @Override
@@ -19,7 +21,7 @@ public class AnimeCapsFragmentPresenterImpl implements IAnimeCapsFragment.Presen
     }
 
     @Override
-    public void showAnimeCaps(AnimeCapsData animeCapsData) {
+    public void showAnimeCaps(ArrayList<AnimeCapsData> animeCapsData) {
         view.showAnimeCaps(animeCapsData);
         view.hideProgressBar();
 
